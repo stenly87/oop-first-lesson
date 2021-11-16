@@ -34,6 +34,39 @@ namespace ConsoleApp19
             GC.Collect();
             Console.ReadLine();*/
 
+            //Принципы ООП
+            //0) Абстрагирование (Абстрактное понятие описывается
+            // классом, экземпляр класса это "сущность", что-то
+            // конкретное)
+            //1) Инкапсуляция - объединение кода и данных. Данные 
+            // характеризуют состояние объекта. Данные внутри объекта
+            // должны меняться самим объектом с помощью публичных
+            // методов и свойств. Нельзя позволять изменять внутреннее 
+            // состояние объекта без его разрешения
+            //2) Наследование - создание новых классов на основе 
+            // существующих. Новый класс получает разрешенные элементы
+            // от родительского класса, плюс имеет собственное состояние
+            // и поведение.
+            //3) Полиморфизм - один интерфейс = множество реализаций.
+            // Возможность работы с объектом с помощью общего интерфейса
+            // Преобразование одних объектов в другие объекты
+            // Переопределение поведения.
+
+            Human human = new Human { Name = "Серега" };
+            human.Walk();
+            human.Talk();
+            Console.WriteLine();
+
+            Child child = new Child { Name = "Сережа" };
+            child.Walk();
+            child.Talk();
+
+            // наоборот нельзя (из human в child нельзя)
+            Human miniHuman = (Human)child;
+            miniHuman.Walk();
+            miniHuman.Talk();
+
+            /*
             Student stud = new Student();
             Console.WriteLine(stud["FirstName"]);
             Console.WriteLine(stud["LastName"]);
@@ -44,7 +77,7 @@ namespace ConsoleApp19
             Console.WriteLine(stud.LastName);
             stud.PrintToConsole();
             stud.GrowUp += Stud_GrowUp;
-            stud.PrintToConsole();
+            stud.PrintToConsole();*/
         }
 
         private static void Stud_GrowUp()
@@ -154,6 +187,43 @@ namespace ConsoleApp19
             GrowUp?.Invoke(); // запуск события на исполнение
             // если есть активные подписки
             Console.WriteLine($"{lastName} {firstName}");
+        }
+    }
+
+    class Human
+    { 
+        public string Name { get; set; }
+        // virtual означает, что реализацию данного элемента
+        // можно изменить в классах-наследниках
+        public virtual void Walk()
+        {
+            Console.WriteLine($"{Name} идет");
+        }
+        public virtual void Talk()
+        {
+            Console.WriteLine($"{Name} говорит");
+        }
+    }
+    // наследование одного от другого указывается через :
+    // в объявлении класса.
+    // при наследовании класс-наследник получает все элементы
+    // родительского класса с модификатором доступа выше,
+    // чем private.
+    class Child : Human
+    {
+        // override используется для указания, что созданный
+        // элемент класса переопределяет реализацию такого же
+        // элемента в родительском классе
+        public override void Walk()
+        {
+            Console.WriteLine($"{Name} ползет");
+            //base.Walk(); через base можно вызвать реализацию
+            // из родительского класса
+        }
+
+        public override void Talk()
+        {
+            Console.WriteLine($"{Name} лапочет белиберду");
         }
     }
 }
