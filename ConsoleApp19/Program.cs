@@ -52,6 +52,38 @@ namespace ConsoleApp19
             // Преобразование одних объектов в другие объекты
             // Переопределение поведения.
 
+            // static - элементы помеченные как static,
+            // создаются 1 раз за все время жизни приложения
+
+            // если класс отмечен как static, то
+            // нельзя создать объект этого класса
+            // нельзя создать в нем нестатичные конструкторы
+            // нельзя создать деструктор и индексатор
+            // зато мы можем использовать класс в любом
+            // месте приложения, будут использоваться его
+            // публичные и статичные элементы (поля, свойства,
+            // события и методы (и 1 статичный конструктор))
+
+            // если класс не static и в нем есть static-элементы
+            // из не-static элементов мы можем обратиться к static
+            // из static-элементов мы не может обратиться к НЕ-static
+            // потому что не-static элементы не существуют без объекта
+
+            // static-элементы создаются 1 раз!
+            // не-static элементы могут быть созданы для каждого
+            // экземпляра класса
+
+            // static-элементы вызываются на классе
+            // т.е. буквально с помощью названия класса
+            // не-static элементы вызываются на экземпляре
+
+            Student human = new Student();
+            //human.FirstName = "asfas";
+
+            
+            human.LastName = null;
+            Console.WriteLine($"{human.FirstName} {human.LastName}");
+            /*
             Human human = new Human { Name = "Серега" };
             human.Walk();
             human.Talk();
@@ -64,7 +96,7 @@ namespace ConsoleApp19
             // наоборот нельзя (из human в child нельзя)
             Human miniHuman = (Human)child;
             miniHuman.Walk();
-            miniHuman.Talk();
+            miniHuman.Talk();*/
 
             /*
             Student stud = new Student();
@@ -106,16 +138,18 @@ namespace ConsoleApp19
             get => lastName;
             set 
             {
+
+                if (value != null && value != "")
                 if (!string.IsNullOrEmpty(value))
                     lastName = value;
             }
         }
         // краткая запись свойства
-        public int Age { get; set; }
+        public static int Age { get; set; }
 
         // события
         // модификатор_доступа event тип_делегата название;
-        public event Action GrowUp;
+        public static event Action GrowUp;
 
         // конструкторы (код, выполняющийся при создании экземпляра)
         // синтаксис конструктора:
@@ -137,6 +171,7 @@ namespace ConsoleApp19
             //fs = File.OpenRead("1.txt");
             //Console.WriteLine("Выполняется конструктор без аргументов");
         }
+        // статичный конструктор в классе максимум 1
         static Student()
         {
 
@@ -157,7 +192,7 @@ namespace ConsoleApp19
             }
         }*/
 
-        Dictionary<string, string> values =
+        static Dictionary<string, string> values =
             new Dictionary<string, string>();
         // индексатор
         // модификатор_доступа Тип_возврата this[тип индекс]
@@ -165,7 +200,7 @@ namespace ConsoleApp19
         //  get {}
         //  set {} 
         // }
-        public string this[string key]
+        /*public string this[string key]
         {
             get
             {
@@ -177,16 +212,16 @@ namespace ConsoleApp19
             {
                 values[key] = value;
             }
-        }
+        }*/
 
 
 
         // методы
-        public void PrintToConsole()
+        public static void PrintToConsole()
         {
             GrowUp?.Invoke(); // запуск события на исполнение
             // если есть активные подписки
-            Console.WriteLine($"{lastName} {firstName}");
+            //Console.WriteLine($"{lastName} {firstName}");
         }
     }
 
