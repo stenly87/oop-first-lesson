@@ -11,7 +11,7 @@ namespace ConsoleApp19
     {
         static void Main(string[] args)
         {
-            // Объектно-ориентированное программирование
+            //15.11 Объектно-ориентированное программирование
             // ООП
             // Класс это шаблон для объектов, обладающий
             // данными и поведением
@@ -34,7 +34,7 @@ namespace ConsoleApp19
             GC.Collect();
             Console.ReadLine();*/
 
-            //Принципы ООП
+            //16.11 Принципы ООП
             //0) Абстрагирование (Абстрактное понятие описывается
             // классом, экземпляр класса это "сущность", что-то
             // конкретное)
@@ -55,7 +55,7 @@ namespace ConsoleApp19
             // static - элементы помеченные как static,
             // создаются 1 раз за все время жизни приложения
 
-            // если класс отмечен как static, то
+            // 17.11 если класс отмечен как static, то
             // нельзя создать объект этого класса
             // нельзя создать в нем нестатичные конструкторы
             // нельзя создать деструктор и индексатор
@@ -77,10 +77,89 @@ namespace ConsoleApp19
             // т.е. буквально с помощью названия класса
             // не-static элементы вызываются на экземпляре
 
-            Student human = new Student();
+            // 18.11 Интерфейсы
+
+            // интерфейс это ссылочный тип данных, который 
+            // декларирует (объявляет) методы, свойства, события
+            // без реализации (в основном)
+
+            // синтаксис
+            // модификатор_доступа interface IНазваниеИнтерфейса
+            // { тело с объявлениями методов, свойств и событий}
+
+            // Нельзя создать экземпляр интерфейса
+            // Интерфейсы всегда работают в связке с классами
+            // Классы реализуют интерфейсы (буквально в коде
+            // выглядит как наследование, причем один класс может
+            // реализовывать (наследовать) множество интерфейсов
+            // (в c# классы могут наследовать 1 (один) класс и
+            // множество интерфейсов)
+
+            // Все элементы, объявляемые в интерфейсе, не имеют
+            // модификаторов доступа, поскольку при реализации
+            // обязаны стать публичными (public)
+            
+            Cat cat = new Cat("Марфа");
+            Duck duck = new Duck("Джимбо");
+
+            // Новые требования от заказчика:
+            // 1) В вольере может быть больше, чем 2 животных
+            // на сколько больше, не уточняется
+            // 2) Утки могут летать и ходить, а не только плавать
+            // 3) Для вип-клиентов надо добавить резиновую утку
+            // 4) Метод CheckStatus должен проверять статус всех
+            // животных в вольере (включая резиновую уточку)
+            // 5) Метод AddAnimal следует переработать с тем,
+            // чтобы можно было передавать туда любых животных
+            // в т.ч. резиновую уточку
+
+            Cage cage = new Cage();
+            cage.AddAnimal(cat);
+            cage.AddAnimal(duck);
+            cage.AddAnimal(duck);
+
+            cage.CheckStatus();
+
+
+            object c = new Child { Name = "Ребенок" };
+            c = new Student();
+            /*c = 1;*/
+            if (c is IHumanoid humanoid)  // без этой проверки
+                humanoid.Talk();          // будет ошибка, посколько хранится
+            // число 1
+
+            // ключевое слово is позволяет проверить
+            // является ли объект указанным классом/интерфейсом
+            // или его наследником
+
+            // ключевое слово as позволяет произвести
+            // безопасное преобразование ссылочных типов 
+
+            // если преобразование невозможно, в левую часть
+            // выражения уйдет null
+            IHumanoid humanoid1 = c as IHumanoid;
+            if (humanoid1 != null)
+                humanoid1.Talk();
+
+            // если c as Human == null, то будет создан 
+            // новый Human. ?? - оператор проверки на null
+            Human human = c as Human ?? new Human();
+            human.Talk();
+
+            Human h = new Human();
+            Child child = new Child();
+            var childInterface = (IHumanoid)child;
+            IHumanoid childHumanoid = new Child();
+            ((IHumanoid)h).Talk();
+            childHumanoid.Walk();
+
+            childHumanoid.Age = 2;
+            Console.WriteLine(((Child)childHumanoid).Age);
+
+            //Student human = new Student();
             //human.FirstName = "asfas";
 
-            
+            /*
             human.LastName = null;
             Console.WriteLine($"{human.FirstName} {human.LastName}");
             /*
@@ -114,6 +193,7 @@ namespace ConsoleApp19
 
         private static void Stud_GrowUp()
         {
+            Student.PrintToConsole();
             Console.WriteLine("Случилось событие GrowUp");
         }
     }
@@ -214,20 +294,45 @@ namespace ConsoleApp19
             }
         }*/
 
-
+        
 
         // методы
         public static void PrintToConsole()
         {
+            
+
             GrowUp?.Invoke(); // запуск события на исполнение
             // если есть активные подписки
             //Console.WriteLine($"{lastName} {firstName}");
         }
     }
 
-    class Human
-    { 
+    // пример интерфейса
+    interface IHumanoid
+    {
+        void Walk();
+        void Talk();
+        int Age { set; }
+        event EventHandler SomeEvent;
+
+    }
+
+    class Human : IHumanoid
+    {
+        int _age;
+
+        public event EventHandler SomeEvent;
+
         public string Name { get; set; }
+        public int Age {
+            get => _age;
+            set
+            {
+                if (value > 0 && value < 150)
+                    _age = value;
+            }
+        }
+
         // virtual означает, что реализацию данного элемента
         // можно изменить в классах-наследниках
         public virtual void Walk()
