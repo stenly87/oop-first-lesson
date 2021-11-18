@@ -43,11 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animal.cs" />
     <Compile Include="Cage.cs" />
     <Compile Include="Cat.cs" />
     <Compile Include="Duck.cs" />
+    <Compile Include="ICanFight.cs" />
+    <Compile Include="IFlyable.cs" />
+    <Compile Include="ISwimmable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RubberDuck.cs" />
+    <Compile Include="IWalkable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

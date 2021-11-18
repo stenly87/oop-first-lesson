@@ -1,26 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ConsoleApp19
 {
     internal class Cage
     {
-        private Cat cat;
-        private Duck duck;
+        List<Animal> animals = new List<Animal>();
 
-        internal void AddAnimal(Cat cat)
-        {
-            this.cat = cat;
-        }
-
-        internal void AddAnimal(Duck duck)
-        {
-            this.duck = duck;
+        internal void AddAnimal(Animal animal)
+        {// upcast преобразование к родительскому классу
+            animals.Add(animal);
         }
 
         internal void CheckStatus()
         {
-            cat.Move();
-            duck.Move();
+            animals.ForEach(s => s.CheckStatus(this));        
+        }
+        Random rnd = new Random();
+        internal Animal GetRandomOpponent()
+        {
+            return animals[rnd.Next(0, animals.Count)];
         }
     }
 }

@@ -2,18 +2,23 @@
 
 namespace ConsoleApp19
 {
-    internal class Duck
+    internal class Duck : Animal, IWalkable, ISwimmable, IFlyable
     {
-        private string name;
-
-        public Duck(string name)
+        public Duck(string name) : base(name)
         {
-            this.name = name;
         }
-
-        internal void Move()
+        
+        public void Fly()
         {
-            Console.WriteLine($"{name} плавает");
+            Console.WriteLine($"{Name} летает");
+        }
+        public void Walk()
+        {
+            Console.WriteLine($"{Name} ходит");
+        }
+        public void Swim()
+        {
+            Console.WriteLine($"{Name} плавает");
         }
     }
 }

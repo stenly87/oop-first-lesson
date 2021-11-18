@@ -2,18 +2,26 @@
 
 namespace ConsoleApp19
 {
-    internal class Cat
+    internal class Cat : Animal, IWalkable, ISwimmable, ICanFight
     {
-        private string name;
-
-        public Cat(string name)
+        public Cat(string name): base(name)
         {
-            this.name = name;
+
         }
 
-        public void Move()
+        public void Walk()
         {
-            Console.WriteLine($"{name} бегает");
+            Console.WriteLine($"{Name} ходит");
+        }
+
+        public void Swim()
+        {
+            Console.WriteLine($"{Name} плавает");
+        }
+
+        public void Fight(Animal opponent)
+        {
+            Console.WriteLine($"{Name} лупит {opponent.Name}");
         }
     }
 }

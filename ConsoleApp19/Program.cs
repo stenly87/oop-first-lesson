@@ -98,32 +98,37 @@ namespace ConsoleApp19
             // Все элементы, объявляемые в интерфейсе, не имеют
             // модификаторов доступа, поскольку при реализации
             // обязаны стать публичными (public)
-            
-            Cat cat = new Cat("Марфа");
-            Duck duck = new Duck("Джимбо");
+
+
 
             // Новые требования от заказчика:
             // 1) В вольере может быть больше, чем 2 животных
-            // на сколько больше, не уточняется
+            // на сколько больше, не уточняется done
             // 2) Утки могут летать и ходить, а не только плавать
             // 3) Для вип-клиентов надо добавить резиновую утку
             // 4) Метод CheckStatus должен проверять статус всех
             // животных в вольере (включая резиновую уточку)
             // 5) Метод AddAnimal следует переработать с тем,
             // чтобы можно было передавать туда любых животных
-            // в т.ч. резиновую уточку
+            // в т.ч. резиновую уточку (done)
 
             Cage cage = new Cage();
-            cage.AddAnimal(cat);
-            cage.AddAnimal(duck);
-            cage.AddAnimal(duck);
+            cage.AddAnimal(new Cat("Марфа"));
+            cage.AddAnimal(new Cat("Маркиз"));
+            cage.AddAnimal(new RubberDuck("Большой Боб"));
+            cage.AddAnimal(new Cat("Пушок"));
+            cage.AddAnimal(new Duck("Джимбо"));
 
-            cage.CheckStatus();
-
-
-            object c = new Child { Name = "Ребенок" };
+            do
+            {
+                cage.CheckStatus();
+                Console.WriteLine("###########");
+                Console.ReadLine();
+            }
+            while (true);
+            /*object c = new Child { Name = "Ребенок" };
             c = new Student();
-            /*c = 1;*/
+            c = 1;
             if (c is IHumanoid humanoid)  // без этой проверки
                 humanoid.Talk();          // будет ошибка, посколько хранится
             // число 1
