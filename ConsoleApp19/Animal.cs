@@ -20,6 +20,8 @@ namespace ConsoleApp19
         Random rnd = new Random();
         public virtual void CheckStatus(Cage cage)
         {
+            // тут можно внедрить паттерн "цепочка
+            // обязанностей" или типа того
             if (this is IFlyable && rnd.Next(10) > 5)
             {
                 ((IFlyable)this).Fly();
